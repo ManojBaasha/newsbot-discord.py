@@ -41,20 +41,25 @@ async def news(ctx, *, Newstype=None):
     c=0
     for i in list_of_news_articles:
         c=c+1
-        source=i["source"]
-        author=i["author"]
-        title=i["title"]
-        description=i["description"]
-        url=i["url"]
-        urlToImage=i["urlToImage"]
-        publishedat=i["publishedAt"]
-        content=i["content"]
+        try:
+            
+            source=i["source"]
+            author=i["author"]
+            title=i["title"]
+            description=i["description"]
+            url=i["url"]
+            urlToImage=i["urlToImage"]
+            publishedat=i["publishedAt"]
+            content=i["content"]
 
-        
-        embed=discord.Embed(title=title, url=url, description=description, color=0x109319)
-        embed.set_thumbnail(url=urlToImage)
-        embed.set_footer(text="Click on the link for more info")
-        await ctx.send(embed=embed)
+
+            embed=discord.Embed(title=title, url=url, description=description, color=0x109319)
+            embed.set_thumbnail(url=urlToImage)
+            embed.set_footer(text="Click on the link for more info")
+            await ctx.send(embed=embed)
+            print(top_headlines)
+        except:
+            await ctx.send(".")
 
         if c==5:
             break
