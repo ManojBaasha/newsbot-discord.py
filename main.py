@@ -7,7 +7,8 @@ from newsapi import NewsApiClient
 
 ##################################################################
 client = discord.Client()
-client= commands.Bot(command_prefix='n!')
+client = commands.Bot(command_prefix='n!')
+
 
 @client.event
 async def on_ready():
@@ -15,7 +16,7 @@ async def on_ready():
 
 
 with open('apikey.txt') as f:
-    """ using a text file to store the discord bot token"""
+    """ using a text file to store the newsbot bot token"""
     apikey = f.read()
 
 with open('token.txt') as a:
@@ -26,34 +27,31 @@ with open('token.txt') as a:
 
 @client.command()
 async def news(ctx, *, Newstype=None):
-    if Newstype == None:
+    if Newstype == None:  # if no second argument is given
         await ctx.send("Use n!<topic> to search for the type of news you want")
-        
-    
-    top_headlines = newsapi.get_top_headlines(q=str(Newstype),
-                                          language='en',)
 
-    
+    top_headlines = newsapi.get_top_headlines(q=str(Newstype),
+                                              language='en',)
 
     a = top_headlines["articles"]
 #
-    list_of_news_articles=top_headlines["articles"]
-    c=0
+    list_of_news_articles = top_headlines["articles"]
+    c = 0
     for i in list_of_news_articles:
-        c=c+1
+        c = c+1
         try:
-            
-            source=i["source"]
-            author=i["author"]
-            title=i["title"]
-            description=i["description"]
-            url=i["url"]
-            urlToImage=i["urlToImage"]
-            publishedat=i["publishedAt"]
-            content=i["content"]
 
+            source = i["source"]
+            author = i["author"]
+            title = i["title"]
+            description = i["description"]
+            url = i["url"]
+            urlToImage = i["urlToImage"]
+            publishedat = i["publishedAt"]
+            content = i["content"]
 
-            embed=discord.Embed(title=title, url=url, description=description, color=0x109319)
+            embed = discord.Embed(title=title, url=url,
+                                  description=description, color=0x109319)
             embed.set_thumbnail(url=urlToImage)
             embed.set_footer(text="Click on the link for more info")
             await ctx.send(embed=embed)
@@ -61,37 +59,12 @@ async def news(ctx, *, Newstype=None):
         except:
             await ctx.send(".")
 
-        if c==5:
+        if c == 5:
             break
-
-
-
-
-
-    
-
-
-
-
-
 
 
 ########################################################################
 newsapi = NewsApiClient(api_key=apikey)
 
-
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-
-#news(top_headlines)
+# news(top_headlines)
 client.run(token)
